@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "Projeto Interdisciplinar",
+    "slug": "pi-react-native",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "androidStatusBarColor": "#334393",
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#334393"
+    },
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    }
+  }
+}
