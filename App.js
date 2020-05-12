@@ -1,10 +1,8 @@
-import Login from './components/login';
-import Sobre from './components/sobre';
-import React from 'react';
-import { View } from 'react-native';
+import Login from './pages/Login'
+import React from 'react'
 
 export default function App() {
   return (
-    <Sobre />
+    <Login />
   );
 }
