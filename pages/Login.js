@@ -21,11 +21,13 @@ const validationSchema = Yup.object().shape({
 export default class Login extends React.Component {
     // goToSignup = () => this.props.navigation.navigate('Signup') navegar para cadastro
 
-    handleSubmit = values => {
+    handleSubmit = (values, actions) => {
         if (values.email.length > 0 && values.password.length > 0) {
           setTimeout(() => {
-            // navegar para o app
-          }, 3000)
+            this.props.navigation.navigate('Sobre')
+          }, 200)
+
+          actions.setSubmitting(false)
         }
       }
 
@@ -37,7 +39,7 @@ export default class Login extends React.Component {
                 </View>
                 <Formik
                     initialValues={{ email: '', password: '' }}
-                    onSubmit={values => { this.handleSubmit(values) }}
+                    onSubmit={(values, actions) => { this.handleSubmit(values, actions) }}
                     validationSchema={validationSchema}
                 >
                     {({ handleChange, values, handleSubmit, errors, isValid, isSubmitting, touched, handleBlur }) => (
