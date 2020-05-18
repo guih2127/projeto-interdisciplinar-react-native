@@ -5,6 +5,17 @@ import { FormButton } from '../components/FormButton';
 import { FormInput } from '../components/FormInput';
 import * as Yup from 'yup'
 
+
+const CadastroSchema = Yup.object({
+    nome: Yup.string()
+             .required('Esse campo é obrigatório'),
+    email: Yup.string()
+              .email('Informe um email válido')
+              .required('Esse campo é obrigatório'),
+    dtNascimento: Yup.string()
+                     .required('Esse campo é obrigatório')   
+})
+
 export default function Cadastro() {
 
     return (
@@ -17,6 +28,7 @@ export default function Cadastro() {
         </View>
             <Formik
                 initialValues={{ email: '', nome: '', dtNascimento: '' }}
+                validationSchema={CadastroSchema}
                 onSubmit={(values, actions) => { 
                         console.log(values)
                         actions.resetForm()
@@ -51,7 +63,6 @@ export default function Cadastro() {
                                     <Button style={styles.botao}
                                         onPress={props.handleSubmit}
                                         title='Salvar'
-                                        buttonColor='#015A1D'
                                     />
                                 </View>
                     </View>
@@ -80,16 +91,19 @@ const styles = StyleSheet.create({
             margin: 10
     },
     botao: {
-        borderWidth: 1,
-        borderColor: "#015A1D",
-        borderRadius: 20,
+       padding: 10,
+       color: "#015A1D"
         
     },
     buttonContainer: {
-        margin: 25
+        marginTop: 60,
+        borderWidth: 1,
+        borderColor: "#015A1D",
+        borderRadius: 20,
     },
     imageContainer: {
         borderRadius: 30,
+        marginBottom: 30
     },
     image: {
         width: null,
