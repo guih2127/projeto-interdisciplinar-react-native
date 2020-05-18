@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Button, TextInput, View, Text, Image } from 'react-native';
+import { SafeAreaView, StyleSheet, Button, TextInput, View, Text, Image} from 'react-native';
 import { Formik, Form } from 'formik'
 import { FormButton } from '../components/FormButton';
 import { FormInput } from '../components/FormInput';
@@ -12,50 +12,54 @@ export default function Cadastro() {
 
     <View style = { styles.container } >
 
-        <Formik
-            initialValues={{ email: '', nome: '', dtNascimento: '' }}
-            onSubmit={(values) => { 
-                    console.log(values)
-             }}> 
-             {(props) => (
-                 <View>
-                        <TextInput
-                            style={styles.input}
-                            name='nome'
-                            value={props.values.nome}
-                            placeholder='Nome'
-                            onChangeText={props.handleChange('nome')}
-                        />
+        <View style={styles.imageContainer}>
+            <Image style={styles.image} source={require("../assets/avatar_vazio.png")} />
+        </View>
+            <Formik
+                initialValues={{ email: '', nome: '', dtNascimento: '' }}
+                onSubmit={(values, actions) => { 
+                        console.log(values)
+                        actions.resetForm()
+                }}> 
+                {(props) => (
+                    <View>
+                            <TextInput
+                                style={styles.input}
+                                name='nome'
+                                value={props.values.nome}
+                                placeholder='Nome'
+                                onChangeText={props.handleChange('nome')}
+                            />
 
-                        <TextInput
-                            style={styles.input}
-                            name='email'
-                            value={props.values.email}
-                            placeholder='E-mail'
-                            onChangeText={props.handleChange('email')}
-                        />
+                            <TextInput
+                                style={styles.input}
+                                name='email'
+                                value={props.values.email}
+                                placeholder='E-mail'
+                                onChangeText={props.handleChange('email')}
+                            />
 
-                        <TextInput
-                            style={styles.input}
-                            name='dtNascimento'
-                            value={props.values.dtNascimento}
-                            placeholder='Data Nascimento'
-                            onChangeText={props.handleChange('dtNascimento')}
-                        />
+                            <TextInput
+                                style={styles.input}
+                                name='dtNascimento'
+                                value={props.values.dtNascimento}
+                                placeholder='Data Nascimento'
+                                onChangeText={props.handleChange('dtNascimento')}
+                            />
 
-                            <View style={styles.buttonContainer}>
-                                <Button style={styles.botao}
-                                    onPress={props.handleSubmit}
-                                    title='Salvar'
-                                    buttonColor='#015A1D'
-                                />
-                            </View>
-                 </View>
-             )}
-          
-          
-              
-        </Formik>
+                                <View style={styles.buttonContainer}>
+                                    <Button style={styles.botao}
+                                        onPress={props.handleSubmit}
+                                        title='Salvar'
+                                        buttonColor='#015A1D'
+                                    />
+                                </View>
+                    </View>
+                )}
+            
+            
+                
+            </Formik>
     </View >
     )
 }
@@ -76,12 +80,22 @@ const styles = StyleSheet.create({
             margin: 10
     },
     botao: {
+        borderWidth: 1,
         borderColor: "#015A1D",
         borderRadius: 20,
         
     },
     buttonContainer: {
         margin: 25
+    },
+    imageContainer: {
+        borderRadius: 30,
+    },
+    image: {
+        width: null,
+        
+        resizeMode: 'contain',
+        height: 220
     }
     
 
