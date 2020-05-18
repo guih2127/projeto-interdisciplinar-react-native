@@ -9,25 +9,26 @@ import * as Yup from 'yup'
 
 const validationSchema = Yup.object().shape({
     email: Yup.string()
-      .label('Email')
-      .email('Informe um email válido')
-      .required('Por favor informe um email válido'),
+        .label('Email')
+        .email('Informe um email válido')
+        .required('Por favor informe um email válido'),
     password: Yup.string()
-      .label('Password')
-      .required('Por favor, informe uma senha válida')
-      .min(4, 'A senha deve possuir ao menos 4 caracteres')
-  })
+        .label('Password')
+        .required('Por favor, informe uma senha válida')
+        .min(4, 'A senha deve possuir ao menos 4 caracteres')
+})
 
 export default class Login extends React.Component {
-    // goToSignup = () => this.props.navigation.navigate('Signup') navegar para cadastro
-
-    handleSubmit = values => {
+ 
+    handleSubmit = (values, actions) => {
         if (values.email.length > 0 && values.password.length > 0) {
-          setTimeout(() => {
-            // navegar para o app
-          }, 3000)
+            setTimeout(() => {
+                this.props.navigation.navigate('Index')
+            }, 200)
+
+            actions.setSubmitting(false)
         }
-      }
+    }
 
     render() {
         return (
@@ -37,7 +38,7 @@ export default class Login extends React.Component {
                 </View>
                 <Formik
                     initialValues={{ email: '', password: '' }}
-                    onSubmit={values => { this.handleSubmit(values) }}
+                    onSubmit={(values, actions) => { this.handleSubmit(values, actions) }}
                     validationSchema={validationSchema}
                 >
                     {({ handleChange, values, handleSubmit, errors, isValid, isSubmitting, touched, handleBlur }) => (
@@ -71,7 +72,7 @@ export default class Login extends React.Component {
                                     title='Login'
                                     buttonColor='#015A1D'
                                     disabled={!isValid || isSubmitting}
-                                    loading = { isSubmitting }
+                                    loading={isSubmitting}
                                 />
                             </View>
                         </React.Fragment>
@@ -80,7 +81,7 @@ export default class Login extends React.Component {
                 </Formik>
                 <Button
                     title="Cadastro"
-                    onPress={this.goToSignup}
+                    onPress={() => this.props.navigation.navigate('Cadastro')}
                     titleStyle={{
                         color: '#015A1D'
                     }}
