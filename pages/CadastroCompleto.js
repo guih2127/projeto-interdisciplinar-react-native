@@ -60,7 +60,7 @@ export default class CadastroCompleto extends React.Component {
       && values.complemento.length > 0 && values.bairro.length > 0 && values.cep.length > 0 && values.cidade.length > 0 
       && values.uf.length > 0 ) {
       setTimeout(() => {
-        this.props.navigation.navigate('Login')
+        this.props.navigation.navigate('Cadastro')
       }, 200)
 
       actions.setSubmitting(false)

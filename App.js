@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Sobre from './pages/Sobre';
 import Home from './pages/Home';
 import Cadastro from './pages/Cadastro';
+import Agenda from './pages/Agenda';
 
 
 const HomeStack = createStackNavigator(
@@ -16,7 +17,8 @@ const HomeStack = createStackNavigator(
         Home: { screen: Home },
         Sobre: { screen: Sobre },
         Login: { screen: Login },
-        Cadastro: { screen: Cadastro}
+        Cadastro: { screen: Cadastro},
+        Agenda: { screen: Agenda},
     },
     {
         defaultNavigationOptions: {
@@ -36,7 +38,8 @@ const SobreStack = createStackNavigator(
         Sobre: { screen: Sobre },
         Home: { screen: Home },
         Login: { screen: Login },
-        Cadastro: { screen: Cadastro}
+        Cadastro: { screen: Cadastro},
+        Agenda: { screen: Agenda},
     },
     {
         defaultNavigationOptions: {
@@ -53,10 +56,12 @@ const SobreStack = createStackNavigator(
 const LoginStack = createStackNavigator(
     {
         //Defination of Navigaton from setting screen
+        Agenda: { screen: Agenda},
+        Home: { screen: Home },
         Login: { screen: Login },
         Sobre: { screen: Sobre },
-        Home: { screen: Home },
-        Cadastro: { screen: Cadastro}
+        Cadastro: { screen: Cadastro},
+        
     },
     {
         defaultNavigationOptions: {
@@ -70,11 +75,35 @@ const LoginStack = createStackNavigator(
         },
     }
 );
+
+const AgendaStack = createStackNavigator(
+    {
+        //Defination of Navigaton from setting screen
+        Login: { screen: Login },
+        Sobre: { screen: Sobre },
+        Home: { screen: Home },
+        Cadastro: { screen: Cadastro},
+        Agenda: { screen: Agenda},
+    },
+    {
+        defaultNavigationOptions: {
+            //Header customization of the perticular Screen
+            headerStyle: {
+                backgroundColor: '#015A1D',
+            },
+            headerTintColor: '#FFFFFF',
+            title: 'Agenda',
+            //Header title
+        },
+    }
+);
+
 const BottomTab = createBottomTabNavigator(
     {
         Login: { screen: LoginStack },
         Home: { screen: HomeStack },
         Sobre: { screen: SobreStack },
+        Agenda: { screen: AgendaStack}
     },
     {
         defaultNavigationOptions: ({ navigation }) => ({
@@ -88,6 +117,8 @@ const BottomTab = createBottomTabNavigator(
                     iconName = 'ios-more';
                 } else if (routeName === 'Login') {
                     iconName = 'ios-log-in';
+                } else if (routeName === 'Agenda') {
+                    iconName = 'ios-calendar';
                 }
                 return <IconComponent name={iconName} size={25} color={tintColor} />;
             },

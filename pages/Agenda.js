@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { View, Button, Platform } from 'react-native';
+import React, {useState} from 'react';
+import {View, Button, Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Picker } from '@react-native-community/picker';
+import {Picker} from '@react-native-community/picker';
 
-const Agenda = () => {
-  const [date, setDate] = useState(new Date(1598051730000));
+
+const [date, setDate] = useState(new Date(1598051730000));
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -12,55 +12,58 @@ const Agenda = () => {
     setDate(currentDate);
   };
 
+export default class Agenda extends Component {
+
   constructor(props) {
-    super(props)
+      super(props);
+  
     this.state = {
-      atividade: [
-        'Musicoterapia Idosos', 'Musicoterapia Infantil'
-      ],
-      profissional: [
-        'Fulano', 'Ciclano', 'Beltrano'
-      };
-  }
-
-
+        atividade: [
+            'Musicoterapia Idosos', 'Musicoterapia Infantil'
+        ],
+        profissional: [
+          'Fulano', 'Ciclano', 'Beltrano'
+        ]
+      }
+    }
+  
+      render() {
   return (
     <View style={styles.container}>
 
-      <View style={styles.containerAtividade}>
-        <Text>
-          Selecione a atividade:
+        <View style={styles.containerAtividade}>
+          <Text>
+            Selecione a atividade:
           </Text>
 
-        <Picker
-          selectedValue={this.state.language}
-          style={{ height: 50, width: 100 }}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState({ atividade: itemValue })
-          }>
-          <Picker.Item label={this.props.atividade} />
+          <Picker
+            selectedValue={this.state.language}
+            style={{height: 50, width: 100}}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({atividade: itemValue})
+            }>
+            <Picker.Item label={this.props.atividade}/>
         </Picker>
       </View>
 
       <View style={styles.containerProfissional}>
-        <Text>
-          Selecione o profissional:
+          <Text>
+            Selecione o profissional:
           </Text>
 
-        <Picker
-          selectedValue={this.state.language}
-          style={{ height: 50, width: 100 }}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState({ profissional: itemValue })
-          }>
-          <Picker.Item label={this.props.profissional} />
+          <Picker
+            selectedValue={this.state.language}
+            style={{height: 50, width: 100}}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({profissional: itemValue})
+            }>
+           <Picker.Item label={this.props.profissional}/>
         </Picker>
       </View>
 
-      <View style={styles.containerAgendamento}>
-
-        <Text>
-          Selecione a data do agendamento:
+      <View style={styles.containerAgendamento}> 
+      <Text>
+        Selecione a data do agendamento:
       </Text>
 
         <DateTimePicker
@@ -73,11 +76,11 @@ const Agenda = () => {
           onChange={onChange}
         />
 
-        <Text>
-          Selecione a hora do agendamento:
+      <Text>
+        Selecione a hora do agendamento:
       </Text>
 
-        <DateTimePicker
+          <DateTimePicker
           testID="dateTimePicker"
           timeZoneOffsetInMinutes={0}
           value={date}
@@ -89,10 +92,8 @@ const Agenda = () => {
 
       </View>
     </View>
-  );
-};
-
-export default Agenda;
+  )}
+}
 
 const styles = StyleSheet.create({
   container: {
