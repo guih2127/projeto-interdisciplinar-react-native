@@ -1,10 +1,8 @@
-import React from 'react'
-import { StyleSheet, SafeAreaView, View, Image, Text } from 'react-native'
-import { Button } from 'react-native-elements'
-import FormInput from '../components/FormInput'
-import FormButton from '../components/FormButton'
-import ErrorMessage from '../components/errorMessage'
-import { Formik } from 'formik'
+import React from 'react';
+import { SafeAreaView, StyleSheet, Button, TextInput, View, Text, Image} from 'react-native';
+import { Formik, Form } from 'formik'
+import { FormButton } from '../components/FormButton';
+import { FormInput } from '../components/FormInput';
 import * as Yup from 'yup'
 
 const validationSchema = Yup.object().shape({
@@ -115,6 +113,7 @@ export default class Cadastro extends React.Component {
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
