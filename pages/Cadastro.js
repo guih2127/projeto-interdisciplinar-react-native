@@ -29,7 +29,7 @@ export default class Cadastro extends React.Component {
   handleSubmit = (values, actions) => {
     if (values.email.length > 0 && values.password.length > 0 && values.nome.length > 0) {
       setTimeout(() => {
-        this.props.navigation.navigate('Login')
+        this.props.navigation.navigate('Cadastro')
       }, 200)
 
       actions.setSubmitting(false)
