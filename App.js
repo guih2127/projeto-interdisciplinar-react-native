@@ -9,13 +9,15 @@ import Sobre from './pages/Sobre';
 import Home from './pages/Home';
 import Cadastro from './pages/Cadastro';
 
+let login = false;
+
 const HomeStack = createStackNavigator(
     {
         //Defination of Navigaton from home screen
         Home: { screen: Home },
         Sobre: { screen: Sobre },
         Login: { screen: Login },
-        Cadastro: { screen: Cadastro}
+        Cadastro: { screen: Cadastro }
     },
     {
         defaultNavigationOptions: {
@@ -35,7 +37,7 @@ const SobreStack = createStackNavigator(
         Sobre: { screen: Sobre },
         Home: { screen: Home },
         Login: { screen: Login },
-        Cadastro: { screen: Cadastro}
+        Cadastro: { screen: Cadastro }
     },
     {
         defaultNavigationOptions: {
@@ -55,7 +57,7 @@ const LoginStack = createStackNavigator(
         Login: { screen: Login },
         Sobre: { screen: Sobre },
         Home: { screen: Home },
-        Cadastro: { screen: Cadastro}
+        Cadastro: { screen: Cadastro }
     },
     {
         defaultNavigationOptions: {
@@ -69,7 +71,56 @@ const LoginStack = createStackNavigator(
         },
     }
 );
-const BottomTab = createBottomTabNavigator(
+const CadastroStack = createStackNavigator(
+    {
+        //Defination of Navigaton from setting screen
+        Cadastro: { screen: Cadastro },
+        Sobre: { screen: Sobre },
+        Home: { screen: Home },
+        Login: { screen: Login }
+    },
+    {
+        defaultNavigationOptions: {
+            //Header customization of the perticular Screen
+            headerStyle: {
+                backgroundColor: '#015A1D',
+            },
+            headerTintColor: '#FFFFFF',
+            title: 'Cadastro',
+            //Header title
+        },
+    }
+);
+
+const BottomTabLogged = createBottomTabNavigator(
+    {
+        Home: { screen: HomeStack },
+        Sobre: { screen: SobreStack },
+    },
+    {
+        defaultNavigationOptions: ({ navigation }) => ({
+            tabBarIcon: ({ focused, horizontal, tintColor }) => {
+                const { routeName } = navigation.state;
+                let IconComponent = Ionicons;
+                let iconName;
+                if (routeName === 'Home') {
+                    iconName = 'ios-home';
+                } else if (routeName === 'Sobre') {
+                    iconName = 'ios-more';
+                } else if (routeName === 'Login') {
+                    iconName = 'ios-log-in';
+                }
+                return <IconComponent name={iconName} size={25} color={tintColor} />;
+            },
+        }),
+        tabBarOptions: {
+            activeTintColor: '#015A1D',
+            inactiveTintColor: 'gray',
+        },
+    }
+);
+
+const BottomTabNotLogged = createBottomTabNavigator(
     {
         Login: { screen: LoginStack },
         Home: { screen: HomeStack },
@@ -98,5 +149,6 @@ const BottomTab = createBottomTabNavigator(
     }
 );
 
+const BottomTab = login ? BottomTabLogged : BottomTabNotLogged;
 
 export default createAppContainer(BottomTab);

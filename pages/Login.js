@@ -23,7 +23,7 @@ export default class Login extends React.Component {
     handleSubmit = (values, actions) => {
         if (values.email.length > 0 && values.password.length > 0) {
             setTimeout(() => {
-                this.props.navigation.navigate('Index')
+                this.props.navigation.navigate('Home')
             }, 200)
 
             actions.setSubmitting(false)
