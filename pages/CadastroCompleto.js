@@ -60,7 +60,7 @@ export default class CadastroCompleto extends React.Component {
       && values.complemento.length > 0 && values.bairro.length > 0 && values.cep.length > 0 && values.cidade.length > 0 
       && values.uf.length > 0 ) {
       setTimeout(() => {
-        this.props.navigation.navigate('Login')
+        this.props.navigation.navigate('Cadastro')
       }, 200)
 
       actions.setSubmitting(false)
@@ -74,7 +74,8 @@ export default class CadastroCompleto extends React.Component {
           <Image style={styles.image} source={require("../assets/logo.jpg")} />
         </View> */}
         <Formik
-          initialValues={{ email: '', password: '' }}
+          initialValues={{ email: '', password: '', cpf: '', telefone: '', dtNascimento: '', 
+          logradouro: '', numero: '', complemeno: '', cep: '', bairro: '', cidade: '', uf: '' }}
           onSubmit={(values, actions) => { this.handleSubmit(values, actions) }}
           validationSchema={validationSchema}
         >
