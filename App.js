@@ -9,6 +9,7 @@ import Sobre from './pages/Sobre';
 import Home from './pages/Home';
 import Cadastro from './pages/Cadastro';
 import CadastroCompleto from './pages/CadastroCompleto';
+import Agenda from './pages/Agenda';
 
 let login = true;
 
@@ -19,7 +20,9 @@ const HomeStack = createStackNavigator(
         Sobre: { screen: Sobre },
         Login: { screen: Login },
         Cadastro: { screen: Cadastro },
-        CadastroCompleto: { screen: CadastroCompleto }
+        CadastroCompleto: { screen: CadastroCompleto },
+        Agenda: { screen: Agenda }
+
     },
     {
         defaultNavigationOptions: {
@@ -40,7 +43,9 @@ const SobreStack = createStackNavigator(
         Home: { screen: Home },
         Login: { screen: Login },
         Cadastro: { screen: Cadastro },
-        CadastroCompleto: { screen: CadastroCompleto }
+        CadastroCompleto: { screen: CadastroCompleto },
+        Agenda: { screen: Agenda },
+
     },
     {
         defaultNavigationOptions: {
@@ -60,7 +65,8 @@ const LoginStack = createStackNavigator(
         Login: { screen: Login },
         Sobre: { screen: Sobre },
         Home: { screen: Home },
-        Cadastro: { screen: Cadastro }
+        Cadastro: { screen: Cadastro },
+        Agenda: { screen: Agenda }
     },
     {
         defaultNavigationOptions: {
@@ -80,7 +86,8 @@ const CadastroStack = createStackNavigator(
         Cadastro: { screen: Cadastro },
         Sobre: { screen: Sobre },
         Home: { screen: Home },
-        Login: { screen: Login }
+        Login: { screen: Login },
+        Agenda: { screen: Agenda }
     },
     {
         defaultNavigationOptions: {
@@ -100,7 +107,8 @@ const CadastroCompletoStack = createStackNavigator(
         EditarPerfil: { screen: CadastroCompleto },
         Sobre: { screen: Sobre },
         Home: { screen: Home },
-        Login: { screen: Login }
+        Login: { screen: Login },
+        Agenda: { screen: Agenda }
     },
     {
         defaultNavigationOptions: {
@@ -115,11 +123,35 @@ const CadastroCompletoStack = createStackNavigator(
     }
 );
 
+const AgendaStack = createStackNavigator(
+    {
+        //Defination of Navigaton from setting screen
+        Agenda: { screen: Agenda },
+        Home: { screen: Home },
+        EditarPerfil: { screen: CadastroCompleto },
+        Sobre: { screen: Sobre },
+        Login: { screen: Login },
+        
+    },
+    {
+        defaultNavigationOptions: {
+            //Header customization of the perticular Screen
+            headerStyle: {
+                backgroundColor: '#015A1D',
+            },
+            headerTintColor: '#FFFFFF',
+            title: 'Agenda',
+            //Header title
+        },
+    }
+);
+
 const BottomTabLogged = createBottomTabNavigator(
     {
         Home: { screen: HomeStack },
         Sobre: { screen: SobreStack },
-        Perfil: { screen: CadastroCompletoStack}
+        Perfil: { screen: CadastroCompletoStack},
+        Agenda: { screen: AgendaStack}
     },
     {
         defaultNavigationOptions: ({ navigation }) => ({
@@ -135,6 +167,8 @@ const BottomTabLogged = createBottomTabNavigator(
                     iconName = 'ios-log-in';
                 } else if (routeName === 'Perfil') {
                     iconName = 'ios-person'
+                } else if (routeName === 'Agenda') {
+                    iconName = 'ios-calendar'
                 }
                 return <IconComponent name={iconName} size={25} color={tintColor} />;
             },
@@ -164,6 +198,8 @@ const BottomTabNotLogged = createBottomTabNavigator(
                     iconName = 'ios-more';
                 } else if (routeName === 'Login') {
                     iconName = 'ios-log-in';
+                } else if (routeName === 'Agenda') {
+                    iconName = 'ios-calendar'
                 }
                 return <IconComponent name={iconName} size={25} color={tintColor} />;
             },
