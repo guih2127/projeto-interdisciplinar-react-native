@@ -8,8 +8,9 @@ import Login from './pages/Login';
 import Sobre from './pages/Sobre';
 import Home from './pages/Home';
 import Cadastro from './pages/Cadastro';
+import CadastroCompleto from './pages/CadastroCompleto';
 
-let login = false;
+let login = true;
 
 const HomeStack = createStackNavigator(
     {
@@ -17,7 +18,8 @@ const HomeStack = createStackNavigator(
         Home: { screen: Home },
         Sobre: { screen: Sobre },
         Login: { screen: Login },
-        Cadastro: { screen: Cadastro }
+        Cadastro: { screen: Cadastro },
+        CadastroCompleto: { screen: CadastroCompleto }
     },
     {
         defaultNavigationOptions: {
@@ -37,7 +39,8 @@ const SobreStack = createStackNavigator(
         Sobre: { screen: Sobre },
         Home: { screen: Home },
         Login: { screen: Login },
-        Cadastro: { screen: Cadastro }
+        Cadastro: { screen: Cadastro },
+        CadastroCompleto: { screen: CadastroCompleto }
     },
     {
         defaultNavigationOptions: {
@@ -91,11 +94,32 @@ const CadastroStack = createStackNavigator(
         },
     }
 );
+const CadastroCompletoStack = createStackNavigator(
+    {
+        //Defination of Navigaton from setting screen
+        EditarPerfil: { screen: CadastroCompleto },
+        Sobre: { screen: Sobre },
+        Home: { screen: Home },
+        Login: { screen: Login }
+    },
+    {
+        defaultNavigationOptions: {
+            //Header customization of the perticular Screen
+            headerStyle: {
+                backgroundColor: '#015A1D',
+            },
+            headerTintColor: '#FFFFFF',
+            title: 'Editar Perfil',
+            //Header title
+        },
+    }
+);
 
 const BottomTabLogged = createBottomTabNavigator(
     {
         Home: { screen: HomeStack },
         Sobre: { screen: SobreStack },
+        Perfil: { screen: CadastroCompletoStack}
     },
     {
         defaultNavigationOptions: ({ navigation }) => ({
@@ -109,6 +133,8 @@ const BottomTabLogged = createBottomTabNavigator(
                     iconName = 'ios-more';
                 } else if (routeName === 'Login') {
                     iconName = 'ios-log-in';
+                } else if (routeName === 'Perfil') {
+                    iconName = 'ios-person'
                 }
                 return <IconComponent name={iconName} size={25} color={tintColor} />;
             },
