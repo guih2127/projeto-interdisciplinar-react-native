@@ -27,8 +27,17 @@ export default class Agenda extends Component {
         { key: 8, nome: 'Conhecer o espaço' }
 
       ],
-      dt: '',
-      hr: ''
+      dtHr: '',
+      datasDisponiveis: [
+        {key: 9, nome: '25/05/2020 às 09h00'},
+        {key: 9, nome: '25/05/2020 às 17h00'},
+        {key: 9, nome: '26/05/2020 às 09h00'},
+        {key: 9, nome: '26/05/2020 às 17h00'},
+        {key: 9, nome: '27/05/2020 às 09h00'},
+        {key: 9, nome: '27/05/2020 às 17h00'},
+        {key: 9, nome: '28/05/2020 às 09h00'},
+        {key: 9, nome: '28/05/2020 às 17h00'},
+      ]
     }
   }
 
@@ -44,11 +53,18 @@ export default class Agenda extends Component {
 
     })
 
+    let dtHrItem = this.state.datasDisponiveis.map((v, k) => {
+      return <Picker.Item key={k} value={k} label={v.nome} />
+
+    })
+
+
     return (
 
       <View style={styles.container}>
 
       <ScrollView>
+        
         <View>
           <Image style={styles.image} source={require("../assets/calendar.png")} />
         </View>
@@ -61,40 +77,16 @@ export default class Agenda extends Component {
                     Selecione a data do agendamento:
                 </Text>
 
-                <TextInputMask style={styles.campoDtHr}
-                    type={'datetime'}
-                    placeholder="DD/MM/YYYY"
-                    options={{
-                      format: 'DD/MM/YYYY'
-                    }}
-                    value={this.state.dt}
-                    onChangeText={text => {
-                      this.setState({
-                        dt: text
-                      })
-                    }}
-                  />
+                <Picker
+                selectedValue={this.state.dtHr}
+                onValueChange={(itemValue, itemIndex) => {
+                  this.setState({ dtHr: itemValue })
+                }}>
+                {dtHrItem}
+              </Picker>
             </View>
+                
 
-            <View>
-                <Text style={styles.textoContainer}>
-                    Selecione a hora do agendamento:
-                </Text>
-
-                <TextInputMask style={styles.campoDtHr}
-                    type={'datetime'}
-                    placeholder="HH:mm"
-                    options={{
-                      format: 'HH:mm'
-                    }}
-                    value={this.state.hr}
-                    onChangeText={text => {
-                      this.setState({
-                        hr: text
-                      })
-                    }}
-                  />
-            </View>
             
             <View style={styles.containerAtividade}>
               <Text style={styles.textoContainer}>
@@ -130,6 +122,10 @@ export default class Agenda extends Component {
                 <Text style={styles.buttonText}> Salvar</Text>
               </TouchableOpacity>
             </View>
+
+                  <Text>
+                    
+                  </Text>
 
           </React.Fragment>
         </ScrollView>
@@ -171,13 +167,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#015A1D',
     textAlign: 'center',
-  },
-  campoDtHr: {
-    borderWidth: 1,
-    borderColor: '#DDD',
-    borderRadius: 5,
-    padding: 10,
-    margin: 10
   }
 
 

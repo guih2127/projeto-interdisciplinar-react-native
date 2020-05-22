@@ -134,7 +134,7 @@ export default class CadastroCompleto extends React.Component {
                   value={values.dtNascimento}
                   onChangeText={handleChange('dtNascimento')}
                   onBlur={handleBlur('dtNascimento')}
-                  placeholder='Data de Nascimento'
+                  placeholder='Data de Nascimento (dd/mm/yyy)'
                   autoCapitalize='none'
                 />
                 <ErrorMessage errorValue={touched.dtNascimento && errors.dtNascimento} />
