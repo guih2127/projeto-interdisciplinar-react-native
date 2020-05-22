@@ -64,7 +64,7 @@ export default class Agenda extends Component {
       <View style={styles.container}>
 
       <ScrollView>
-        
+
         <View>
           <Image style={styles.image} source={require("../assets/calendar.png")} />
         </View>
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   image: {
     width: null,
     resizeMode: 'contain',
-    height: 120
+    height: 150
   },
   textoContainer: {
     marginTop: 20,
