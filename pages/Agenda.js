@@ -1,42 +1,9 @@
 import React, { Component } from 'react';
-import { View, Button, Platform, StyleSheet, Text, SafeAreaView, Picker, Image, Dimensions, TouchableOpacity, TextInput } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler'
-import { FormButton } from '../components/FormButton';
+import { View, Button, Platform, StyleSheet, Text, Picker, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import ErrorMessage from '../components/errorMessage';
-
-
-const validationSchema = Yup.object().shape({
-  profissional: Yup.string()
-    .label('Profissional')
-    .required('Por favor selecione o profissional'),
-  atividade: Yup.string()
-    .label('Atividade')
-    .required('Por favor selecione a atividade'),
-  dt: Yup.string()
-    .label('Data Agenmdamento')
-    .required('Por favor informe a data'),
-})
-
-const DatePickerField = ({ name, value, onChange }) => {
-  return (
-      <DatePicker
-          selected={(value && new Date(value)) || null}
-          onChange={val => {
-              onChange(name, val);
-          }}
-          iconComponent={
-            <Icon 
-            size={30}
-            color='#333333' 
-            name='access-time' 
-            /> 
-         }
-      />
-  );
-};
-
+import { TextInputMask } from 'react-native-masked-text'
 
 export default class Agenda extends Component {
 
@@ -60,31 +27,12 @@ export default class Agenda extends Component {
         { key: 8, nome: 'Conhecer o espaço' }
 
       ],
-      screenHeight: 0,
       dt: '',
       hr: ''
     }
   }
 
-  handleSubmit = (values, actions) => {
-    if (values.profissional.length > 0 && values.atividade.length > 0 && values.dt.length > 0 ) {
-      setTimeout(() => {
-        this.props.navigation.navigate('Home')
-      }, 200)
-
-      actions.setSubmitting(false)
-    }
-  }
-
-  onContentSizeChange = (contentWidth, contentHeight) => {
-    // Save the content height in state
-    this.setState({ screenHeight: contentHeight });
-  };
-
   render() {
-
-    const { height } = Dimensions.get('window');
-    const scrollEnabled = this.state.screenHeight > height;
 
     let profissionaisItem = this.state.profissionais.map((v, k) => {
       return <Picker.Item key={k} value={k} label={v.nome} />
@@ -98,87 +46,97 @@ export default class Agenda extends Component {
 
     return (
 
-      <SafeAreaView style={styles.container}>
-                <View>
-                    <Image style={styles.image} source={require("../assets/calendar.png")} />
-                  </View>
+      <View style={styles.container}>
 
-              <Formik
-                initialValues={{
-                  profissional: '', atividade: '', dt: new Date()
-                }}
-                onSubmit={(values, actions) => { this.handleSubmit(values, actions) }}
-                validationSchema={validationSchema}
-              >
-                {({ handleChange, values, handleSubmit, errors, isValid, isSubmitting, touched, handleBlur }) => (
-                  <ScrollView
-                    style={{ flex: 1 }}
-                    contentContainerStyle={styles.scrollview}
-                    scrollEnabled={scrollEnabled}
-                    onContentSizeChange={this.onContentSizeChange}
-                  >
-                    <React.Fragment>
+      <ScrollView>
+        <View>
+          <Image style={styles.image} source={require("../assets/calendar.png")} />
+        </View>
 
-                    <View style={styles.containerData}>
-                        <Text style={styles.textoContainer}>
-                          Selecione a atividade:
+        
+          <React.Fragment>
+
+          <View>
+                <Text style={styles.textoContainer}>
+                    Selecione a data do agendamento:
+                </Text>
+
+                <TextInputMask style={styles.campoDtHr}
+                    type={'datetime'}
+                    placeholder="DD/MM/YYYY"
+                    options={{
+                      format: 'DD/MM/YYYY'
+                    }}
+                    value={this.state.dt}
+                    onChangeText={text => {
+                      this.setState({
+                        dt: text
+                      })
+                    }}
+                  />
+            </View>
+
+            <View>
+                <Text style={styles.textoContainer}>
+                    Selecione a hora do agendamento:
+                </Text>
+
+                <TextInputMask style={styles.campoDtHr}
+                    type={'datetime'}
+                    placeholder="HH:mm"
+                    options={{
+                      format: 'HH:mm'
+                    }}
+                    value={this.state.hr}
+                    onChangeText={text => {
+                      this.setState({
+                        hr: text
+                      })
+                    }}
+                  />
+            </View>
+            
+            <View style={styles.containerAtividade}>
+              <Text style={styles.textoContainer}>
+                Selecione a atividade:
                         </Text>
 
-                        <Picker 
-                          selectedValue={this.state.atividade}
-                          onValueChange={(itemValue, itemIndex) => {
-                            this.setState({ atividade: itemValue })
-                          }}>
-                          {atividadesItem}
-                        </Picker>
-                      </View>
-                      <ErrorMessage errorValue={touched.atividade && errors.atividade} />
+              <Picker
+                selectedValue={this.state.atividade}
+                onValueChange={(itemValue, itemIndex) => {
+                  this.setState({ atividade: itemValue })
+                }}>
+                {atividadesItem}
+              </Picker>
+            </View>
 
 
-                      <View tyle={styles.containerProfissional}>
-                            <Text style={styles.textoContainer}>
-                              Selecione o profissional:
+            <View tyle={styles.containerProfissional}>
+              <Text style={styles.textoContainer}>
+                Selecione o profissional:
                           </Text>
 
-                            <Picker
-                              selectedValue={this.state.profissional}
-                              onValueChange={(itemValue, itemIndex) => {
-                                this.setState({ profissional: itemValue })
-                              }}>
-                              {profissionaisItem}
-                            </Picker>
-                    </View>
-                    <ErrorMessage errorValue={touched.profissional && errors.profissional} />            
-                    
+              <Picker
+                selectedValue={this.state.profissional}
+                onValueChange={(itemValue, itemIndex) => {
+                  this.setState({ profissional: itemValue })
+                }}>
+                {profissionaisItem}
+              </Picker>
+            </View>
 
-                    <DatePickerField
-                    name="dt"
-                    value={values.dt}
-                    onChange={(itemValue, itemIndex) => {
-                      this.setState({ dt: itemValue })
-                    }}
-                />
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity >
+                <Text style={styles.buttonText}> Salvar</Text>
+              </TouchableOpacity>
+            </View>
 
-              
-                      <View style={styles.buttonContainer}>
-                        <FormButton
-                          buttonType='outline'
-                          onPress={handleSubmit}
-                          title='Cadastrar'
-                          buttonColor='#015A1D'
-                          disabled={!isValid || isSubmitting}
-                          loading={isSubmitting}
-                        />
-                      </View>
-                    </React.Fragment>
-                  </ScrollView>
-                )
-                }
-              </Formik>
-    </SafeAreaView>
+          </React.Fragment>
+        </ScrollView>
+      </View>
 
 
-     
+
     )
   }
 }
@@ -196,13 +154,15 @@ const styles = StyleSheet.create({
   },
   textoContainer: {
     marginTop: 20,
-    paddingLeft: 20,
+    marginLeft: 20,
     fontSize: 18,
     color: '#015A1D'
   },
   buttonContainer: {
     width: 250,
     marginLeft: 90,
+    marginTop: 20,
+    marginBottom: 50,
     borderWidth: 1,
     padding: 10,
     borderColor: '#015A1D',
@@ -211,9 +171,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#015A1D',
     textAlign: 'center',
-  },
-  containerAtividade: {
-    marginLeft: 20
   },
   campoDtHr: {
     borderWidth: 1,
