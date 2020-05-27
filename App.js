@@ -11,7 +11,7 @@ import Cadastro from './pages/Cadastro';
 import CadastroCompleto from './pages/CadastroCompleto';
 import Agenda from './pages/Agenda';
 
-let login = true;
+let login = false;
 
 const HomeStack = createStackNavigator(
     {
@@ -108,7 +108,8 @@ const CadastroCompletoStack = createStackNavigator(
         Sobre: { screen: Sobre },
         Home: { screen: Home },
         Login: { screen: Login },
-        Agenda: { screen: Agenda }
+        Agenda: { screen: Agenda },
+        Cadastro: { screen: Cadastro }
     },
     {
         defaultNavigationOptions: {
@@ -131,7 +132,7 @@ const AgendaStack = createStackNavigator(
         EditarPerfil: { screen: CadastroCompleto },
         Sobre: { screen: Sobre },
         Login: { screen: Login },
-        
+        Cadastro: { screen: Cadastro }
     },
     {
         defaultNavigationOptions: {
@@ -184,7 +185,7 @@ const BottomTabNotLogged = createBottomTabNavigator(
     {
         Login: { screen: LoginStack },
         Home: { screen: HomeStack },
-        Sobre: { screen: SobreStack },
+        Sobre: { screen: SobreStack }
     },
     {
         defaultNavigationOptions: ({ navigation }) => ({

@@ -1,14 +1,16 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, Button, TextInput, View, Text, Image} from 'react-native';
-import { Formik, Form } from 'formik'
-import { FormButton } from '../components/FormButton';
-import { FormInput } from '../components/FormInput';
+import React from 'react'
+import { StyleSheet, SafeAreaView, View, Image, Text } from 'react-native'
+import { Button } from 'react-native-elements'
+import FormInput from '../components/FormInput'
+import FormButton from '../components/FormButton'
+import ErrorMessage from '../components/errorMessage'
+import { Formik } from 'formik'
+import { api } from '../services/api'
 import * as Yup from 'yup'
+import { showMessage } from "react-native-flash-message"
+import FlashMessage from "react-native-flash-message";
 
 const validationSchema = Yup.object().shape({
-  nome: Yup.string()
-    .label('Nome')
-    .required('Por favor informe seu nome'),
   email: Yup.string()
     .label('Email')
     .email('Informe um email válido')
@@ -17,49 +19,77 @@ const validationSchema = Yup.object().shape({
     .label('Password')
     .required('Por favor, informe uma senha válida')
     .min(4, 'A senha deve possuir ao menos 4 caracteres'),
-  confirmpassword: Yup.string()
-    .label('Password')
-    .required('Por favor, informe uma senha válida')
-    .min(4, 'A senha deve possuir ao menos 4 caracteres')
+  confirmPassword: Yup.string()
+  .label('ConfirmPassword')
+  .required('Por favor, informe uma senha válida')
+  .min(4, 'A senha deve possuir ao menos 4 caracteres')
 })
 
 export default class Cadastro extends React.Component {
-  // goToSignup = () => this.props.navigation.navigate('Signup') navegar para cadastro
 
-  handleSubmit = (values, actions) => {
-    if (values.email.length > 0 && values.password.length > 0 && values.nome.length > 0) {
-      setTimeout(() => {
-        this.props.navigation.navigate('Login')
-      }, 200)
+  constructor(props) {
+    super(props);
+  }
 
-      actions.setSubmitting(false)
-    }
+  /*   handleSubmit = (values, actions) => {
+      if (values.email.length > 0 && values.password.length > 0 && values.confirmPassword.length > 0) {
+        setTimeout(() => {
+          this.props.navigation.navigate('Home')
+        }, 200)
+  
+        actions.setSubmitting(false)
+      }
+    } */
+
+  async handleSubmit(values, actions) {
+    var axios = require('axios');
+
+    await axios.post('https://c69cb59b.ngrok.io/api/v1/nova-conta', {
+
+      email: values.email,
+      password: values.password,
+      confirmPassword: values.confirmPassword
+
+      }).then(function (response) {
+
+        actions.setSubmitting(false);
+
+        showMessage({
+          message: "Cadastro feito com sucesso!",
+          type: "success",
+        });
+
+      }).catch(function (error) {
+
+        actions.setSubmitting(false);
+
+        showMessage({
+          message: "Ocorreu um erro ao fazer o cadastro!",
+          type: "danger",
+        });
+
+        return;
+
+      });
+
+      this.props.navigation.navigate('Home', {
+        cadastrado: true,
+      });
   }
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
-{/*         <View>
+        {/*         <View>
           <Image style={styles.image} source={require("../assets/logo.jpg")} />
         </View> */}
         <Formik
-          initialValues={{ email: '', password: '' }}
+          initialValues={{ email: '', password: '', confirmPassword: '' }}
           onSubmit={(values, actions) => { this.handleSubmit(values, actions) }}
           validationSchema={validationSchema}
         >
           {({ handleChange, values, handleSubmit, errors, isValid, isSubmitting, touched, handleBlur }) => (
             <React.Fragment>
-              <FormInput
-                name='nome'
-                value={values.nome}
-                onChangeText={handleChange('nome')}
-                onBlur={handleBlur('nome')}
-                placeholder='Nome'
-                autoCapitalize='none'
-                iconName='ios-mail'
-                iconColor='#015A1D'
-              />
-              <ErrorMessage errorValue={touched.nome && errors.nome} />
               <FormInput
                 name='email'
                 value={values.email}
@@ -81,18 +111,18 @@ export default class Cadastro extends React.Component {
                 iconName='ios-lock'
                 iconColor='#015A1D'
               />
-              <ErrorMessage errorValue={touched.confirmpassword && errors.confirmpassword} />
+              <ErrorMessage errorValue={touched.password && errors.password} />
               <FormInput
-                name='confirmpassword'
-                value={values.password}
-                onChangeText={handleChange('confirmpassword')}
-                onBlur={handleBlur('confirmpassword')}
-                placeholder='Confirmar senha'
+                name='confirmPassword'
+                value={values.confirmPassword}
+                onChangeText={handleChange('confirmPassword')}
+                onBlur={handleBlur('confirmPassword')}
+                placeholder='Confirmar Senha'
                 secureTextEntry
                 iconName='ios-lock'
                 iconColor='#015A1D'
               />
-              <ErrorMessage errorValue={touched.password && errors.password} />
+              <ErrorMessage errorValue={touched.confirmPassword && errors.confirmPassword} />
               <View style={styles.buttonContainer}>
                 <FormButton
                   buttonType='outline'
@@ -107,13 +137,13 @@ export default class Cadastro extends React.Component {
           )
           }
         </Formik>
+        <FlashMessage position="top" style={{marginTop: -30}} />
       </SafeAreaView>
     )
   }
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
@@ -127,5 +157,5 @@ const styles = StyleSheet.create({
     width: null,
     resizeMode: 'contain',
     height: 220
-  }
+  },
 })
