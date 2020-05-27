@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, SafeAreaView, View, Image, Text } from 'react-native'
+import { StyleSheet, SafeAreaView, View, Image, Text, AsyncStorage } from 'react-native'
 import { Button } from 'react-native-elements'
 import FormInput from '../components/FormInput'
 import FormButton from '../components/FormButton'
@@ -20,14 +20,27 @@ const validationSchema = Yup.object().shape({
 
 export default class Login extends React.Component {
  
-    handleSubmit = (values, actions) => {
-        if (values.email.length > 0 && values.password.length > 0) {
-            setTimeout(() => {
-                this.props.navigation.navigate('Home')
-            }, 200)
+    async handleSubmit(values, actions) {
+        var axios = require('axios');
 
-            actions.setSubmitting(false)
-        }
+        await axios.post('https://ba77a03a0d72.ngrok.io/api/v1/entrar', {
+
+          email: values.email,
+          password: values.password,
+    
+          }).then(function (response) {
+            var token = response.data.data.accessToken
+
+            AsyncStorage.setItem(
+              'TOKEN',
+              token
+            );
+
+          }).catch(function (error) {
+            console.log(error);
+        });
+
+        actions.setSubmitting(false);
     }
 
     render() {

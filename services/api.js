@@ -1,7 +1,5 @@
-import axios from 'axios';
+const APIsettings = {
+  baseURL: 'https://ba77a03a0d72.ngrok.io/api/v1/'
+};
 
-const api = axios.create({
-  baseURL: 'https://localhost:44320/api/v1/',
-});
-
-export default api;
+export default APIsettings;

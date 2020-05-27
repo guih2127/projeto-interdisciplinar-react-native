@@ -46,7 +46,6 @@ export default class Home extends Component {
     let cadastrado = this.props.navigation.getParam("cadastrado", false);
 
     if (cadastrado) {
-      console.log('entrou');
       Alert.alert(
         'Sucesso!',
         'Cadastro feito com sucesso.',

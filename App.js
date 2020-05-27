@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { AsyncStorage } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -12,6 +12,15 @@ import CadastroCompleto from './pages/CadastroCompleto';
 import Agenda from './pages/Agenda';
 
 let login = false;
+
+try {
+    const value = AsyncStorage.getItem('TOKEN');
+    if (value !== null) {
+        login = true;
+    }
+  } catch (error) {
+    // Error retrieving data
+  }
 
 const HomeStack = createStackNavigator(
     {

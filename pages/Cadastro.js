@@ -1,11 +1,10 @@
 import React from 'react'
-import { StyleSheet, SafeAreaView, View, Image, Text } from 'react-native'
+import { StyleSheet, SafeAreaView, View, Image, Text, AsyncStorage } from 'react-native'
 import { Button } from 'react-native-elements'
 import FormInput from '../components/FormInput'
 import FormButton from '../components/FormButton'
 import ErrorMessage from '../components/errorMessage'
 import { Formik } from 'formik'
-import { api } from '../services/api'
 import * as Yup from 'yup'
 import { showMessage } from "react-native-flash-message"
 import FlashMessage from "react-native-flash-message";
@@ -43,8 +42,9 @@ export default class Cadastro extends React.Component {
 
   async handleSubmit(values, actions) {
     var axios = require('axios');
+    let cadastroCompleto = false;
 
-    await axios.post('https://c69cb59b.ngrok.io/api/v1/nova-conta', {
+    await axios.post('https://ba77a03a0d72.ngrok.io/api/v1/nova-conta', {
 
       email: values.email,
       password: values.password,
@@ -59,6 +59,8 @@ export default class Cadastro extends React.Component {
           type: "success",
         });
 
+        cadastroCompleto = true;
+
       }).catch(function (error) {
 
         actions.setSubmitting(false);
@@ -72,9 +74,28 @@ export default class Cadastro extends React.Component {
 
       });
 
+      if (cadastroCompleto) {
+        await axios.post('https://ba77a03a0d72.ngrok.io/api/v1/entrar', {
+
+          email: values.email,
+          password: values.password,
+    
+          }).then(function (response) {
+            var token = response.data.data.accessToken
+
+            AsyncStorage.setItem(
+              'TOKEN',
+              token
+            );
+
+          }).catch(function (error) {
+            console.log(error);
+        });
+
       this.props.navigation.navigate('Home', {
         cadastrado: true,
       });
+    }
   }
 
   render() {
